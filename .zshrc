@@ -15,6 +15,7 @@ alias mvi="vim"
 alias openssl='/usr/local/bin/openssl'
 alias be="bundle exec"
 alias koukai="java -XstartOnFirstThread -jar ~/Downloads/macosx-x64/logbook.jar"
+alias spec="RAILS_ENV=test be spec"
 
 #alias rec='rec --encoding signed-integer --bits 8 --channels 1 --rate 16000 test.wav'
 

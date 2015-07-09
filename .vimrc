@@ -75,25 +75,25 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 
 if neobundle#is_installed('neocomplete')
-	" neocomplete用設定
-	let g:neocomplete#enable_at_startup = 1
-	let g:neocomplete#enable_ignore_case = 1
-	let g:neocomplete#enable_smart_case = 1
-	if !exists('g:neocomplete#keyword_patterns')
-		let g:neocomplete#keyword_patterns = {}
-	endif
-	let g:neocomplete#keyword_patterns._ = '\h\w*'
+  " neocomplete用設定
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns._ = '\h\w*'
 elseif neobundle#is_installed('neocomplcache')
-	" neocomplcache用設定
-	let g:neocomplcache_enable_at_startup = 1
-	let g:neocomplcache_enable_ignore_case = 1
-	let g:neocomplcache_enable_smart_case = 1
-	if !exists('g:neocomplcache_keyword_patterns')
-		let g:neocomplcache_keyword_patterns = {}
-	endif
-	let g:neocomplcache_keyword_patterns._ = '\h\w*'
-	let g:neocomplcache_enable_camel_case_completion = 1
-	let g:neocomplcache_enable_underbar_completion = 1
+  " neocomplcache用設定
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_ignore_case = 1
+  let g:neocomplcache_enable_smart_case = 1
+  if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+  endif
+  let g:neocomplcache_keyword_patterns._ = '\h\w*'
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
 endif
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
@@ -102,16 +102,16 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " 全角スペースの表示
 """"""""""""""""""""""""""""""
 function! ZenkakuSpace()
-	highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+  highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
 endfunction
 
 if has('syntax')
-	augroup ZenkakuSpace
-		autocmd!
-		autocmd ColorScheme * call ZenkakuSpace()
-		autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
-	augroup END
-	call ZenkakuSpace()
+  augroup ZenkakuSpace
+    autocmd!
+    autocmd ColorScheme * call ZenkakuSpace()
+    autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+  augroup END
+  call ZenkakuSpace()
 endif
 """"""""""""""""""""""""""""""
 
@@ -121,31 +121,31 @@ endif
 let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
 
 if has('syntax')
-	augroup InsertHook
-		autocmd!
-		autocmd InsertEnter * call s:StatusLine('Enter')
-		autocmd InsertLeave * call s:StatusLine('Leave')
-	augroup END
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * call s:StatusLine('Enter')
+    autocmd InsertLeave * call s:StatusLine('Leave')
+  augroup END
 endif
 
 let s:slhlcmd = ''
 function! s:StatusLine(mode)
-	if a:mode == 'Enter'
-		silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
-		silent exec g:hi_insert
-	else
-		highlight clear StatusLine
-		silent exec s:slhlcmd
-	endif
+  if a:mode == 'Enter'
+    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+    silent exec g:hi_insert
+  else
+    highlight clear StatusLine
+    silent exec s:slhlcmd
+  endif
 endfunction
 
 function! s:GetHighlight(hi)
-	redir => hl
-	exec 'highlight '.a:hi
-	redir END
-	let hl = substitute(hl, '[\r\n]', '', 'g')
-	let hl = substitute(hl, 'xxx', '', '')
-	return hl
+  redir => hl
+  exec 'highlight '.a:hi
+  redir END
+  let hl = substitute(hl, '[\r\n]', '', 'g')
+  let hl = substitute(hl, 'xxx', '', '')
+  return hl
 endfunction
 """"""""""""""""""""""""""""""
 
@@ -161,7 +161,7 @@ NeoBundleCheck
 "-------------------------
 
 
-" 自動コメントアウトがウザすぎるので殺す 完膚なきまでに潰せなかった
+" 自動コメントアウトがウザすぎるので殺したい
 setlocal formatoptions-=ro
 " シンタックスハイライト
 syntax on
@@ -253,35 +253,35 @@ nnoremap j gj
 nnoremap k gk
 " :e などでファイルを開く際にフォルダが存在しない場合は自動作成
 function! s:mkdir(dir, force)
-	if !isdirectory(a:dir) && (a:force ||
-				\ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
-		call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-	endif
+  if !isdirectory(a:dir) && (a:force ||
+        \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
 endfunction
 
 " vim 起動時のみカレントディレクトリを開いたファイルの親ディレクトリに指定 
 function! s:ChangeCurrentDir(directory, bang)
-	if a:directory == ''
-		lcd %:p:h
-	else
-		execute 'lcd' . a:directory
-	endif
+  if a:directory == ''
+    lcd %:p:h
+  else
+    execute 'lcd' . a:directory
+  endif
 
-	if a:bang == ''
-		pwd
-	endif
+  if a:bang == ''
+    pwd
+  endif
 endfunction
 
 " ~/.vimrc.localが存在する場合のみ設定を読み込む
 let s:local_vimrc = expand('~/.vimrc.local')
 if filereadable(s:local_vimrc)
-	execute 'source ' . s:local_vimrc
+  execute 'source ' . s:local_vimrc
 endif
 
 if has('unnamedplus')
-	set clipboard& clipboard+=unnamedplus
+  set clipboard& clipboard+=unnamedplus
 else
-	set clipboard& clipboard+=unnamed,autoselect
+  set clipboard& clipboard+=unnamed,autoselect
 endif
 
 " PHP用設定
@@ -305,19 +305,19 @@ let php_parent_error_close = 1
 let php_parent_error_open = 1
 " SQLのPHP文字リテラルへの整形(:Sqltop, :Sqlfromp)
 function! SQLToPHP()
-	%s/^\(.\+\)$/"\1 " \./g
+  %s/^\(.\+\)$/"\1 " \./g
 
-	normal G$
-	execute "normal ?.&lt;CR&gt;"
-	normal xxggVG
-	echo "Convert to PHP String is finished."
+  normal G$
+  execute "normal ?.&lt;CR&gt;"
+  normal xxggVG
+  echo "Convert to PHP String is finished."
 endfunction
 command! Sqltop :call SQLToPHP()
 function! SQLFromPHP()
-	%s/^"\(.\+\) " *\.*$/\1/g
+  %s/^"\(.\+\) " *\.*$/\1/g
 
-	normal ggVG
-	echo "Convert from PHP String is finished."
+  normal ggVG
+  echo "Convert from PHP String is finished."
 endfunction
 command! Sqlfromp :call SQLFromPHP()
 " ハイライト色設定
@@ -347,7 +347,7 @@ autocmd BufNewFile,BufRead *.t      set filetype=perl
 
 " For snippet_complete marker.
 if has('conceal')
-	set conceallevel=2 concealcursor=i
+  set conceallevel=2 concealcursor=i
 endif
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/snippets/snippets'
@@ -357,19 +357,19 @@ let g:neocomplcache_dictionary_filetype_lists = { 'default'    : '', 'perl'     
 " Java用設定
 "SQLのJava文字リテラルへの整形(:Sqltoj, :Sqlfromj)
 function! SQLToJava()
-	%s/^\(.\+\)$/"\1 " \+/g
+  %s/^\(.\+\)$/"\1 " \+/g
 
-	normal G$
-	execute "normal ?+\&lt;CR&gt;"
-	normal xxggVG
-	echo "Convert to Java String is finished."
+  normal G$
+  execute "normal ?+\&lt;CR&gt;"
+  normal xxggVG
+  echo "Convert to Java String is finished."
 endfunction
 command! Sqltoj :call SQLToJava()
 function! SQLFromJava()
-	%s/^"\(.\+\) " *+*$/\1/g
+  %s/^"\(.\+\) " *+*$/\1/g
 
-	normal ggVG
-	echo "Convert from Java String is finished."
+  normal ggVG
+  echo "Convert from Java String is finished."
 endfunction
 command! Sqlfromj :call SQLFromJava()
 
@@ -381,37 +381,83 @@ au FileType ruby setlocal errorformat=%m\ in\ %f\ on\ line\ %l
 " Scala用設定
 " ファイルタイプの追加
 augroup filetypedetect
-	autocmd! BufNewFile,BufRead *.scala setfiletype scala
-	autocmd! BufNewFile,BufRead *.sbt setfiletype scala
+  autocmd! BufNewFile,BufRead *.scala setfiletype scala
+  autocmd! BufNewFile,BufRead *.sbt setfiletype scala
 augroup END
 " autocmd BufWritePost *.php silent make | if len(getqflist()) != 1 | copen | else | cclose | endif
-
-	" 全角スペースのハイライトを設定
-	function! ZenkakuSpace()
-		highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
-	endfunction
-
-	if has('syntax')
-		augroup ZenkakuSpace
-			autocmd!
-			" ZenkakuSpaceをカラーファイルで設定するなら次の行は削除
-			autocmd ColorScheme       * call ZenkakuSpace()
-			" 全角スペースのハイライト指定
-			autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
-		augroup END
-		call ZenkakuSpace()
-	endif
-
-	if has("autocmd")
-		augroup redhat
-			autocmd BufRead *.txt set tw=78
-			autocmd BufReadPost *
-						\ if line("'\"") > 0 && line ("'\"") <= line("$") |
-						\   exe "normal! g'\"" |
-						\ endif
-		augroup END
-	endif
-
-	set foldmethod=marker
+  "
 
 
+
+  " Anywhere SID.
+  function! s:SID_PREFIX()
+    return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+  endfunction
+
+  " Set tabline.
+  function! s:my_tabline()  "{{{
+    let s = ''
+    for i in range(1, tabpagenr('$'))
+      let bufnrs = tabpagebuflist(i)
+      let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
+      let no = i  " display 0-origin tabpagenr.
+      let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
+      let title = fnamemodify(bufname(bufnr), ':t')
+      let title = '[' . title . ']'
+      let s .= '%'.i.'T'
+      let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
+      let s .= no . ':' . title
+      let s .= mod
+      let s .= '%#TabLineFill# '
+    endfor
+    let s .= '%#TabLineFill#%T%=%#TabLine#'
+    return s
+  endfunction "}}}
+  let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
+  set showtabline=2 " 常にタブラインを表示
+
+  " The prefix key.
+  nnoremap    [Tag]   <Nop>
+  nmap    t [Tag]
+  " Tab jump
+  for n in range(1, 9)
+    execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
+  endfor
+  " t1 で1番左のタブ、t2 で1番左から2番目のタブにジャンプ
+
+  map <silent> [Tag]c :tablast <bar> tabnew<CR>
+  " tc 新しいタブを一番右に作る
+  map <silent> [Tag]x :tabclose<CR>
+  " tx タブを閉じる
+  map <silent> [Tag]n :tabnext<CR>
+  " tn 次のタブ
+  map <silent> [Tag]p :tabprevious<CR>
+  " tp 前のタブ
+
+  " 全角スペースのハイライトを設定
+  function! ZenkakuSpace()
+    highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+  endfunction
+
+  if has('syntax')
+    augroup ZenkakuSpace
+      autocmd!
+      " ZenkakuSpaceをカラーファイルで設定するなら次の行は削除
+      autocmd ColorScheme       * call ZenkakuSpace()
+      " 全角スペースのハイライト指定
+      autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+    augroup END
+    call ZenkakuSpace()
+  endif
+
+  if has("autocmd")
+    augroup redhat
+      autocmd BufRead *.txt set tw=78
+      autocmd BufReadPost *
+            \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+            \   exe "normal! g'\"" |
+            \ endif
+    augroup END
+  endif
+
+  set foldmethod=marker
