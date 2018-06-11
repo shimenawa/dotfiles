@@ -1,7 +1,0 @@
-#!/bin/sh
-
-for i in $(seq 1 10)
-  do
-  echo 0.0.$i > ../../../alias/test$i
-  mkdir -p ../../../v0.0.$i
-done

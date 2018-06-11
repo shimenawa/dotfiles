@@ -1,34 +1,73 @@
-source ~/.zsh.d/zshrc
+# 日本語を使用
+#export LANG=ja_JP.UTF-8
 
-alias ls="ls -FG"
-alias l="ls -FG"
-alias la="ls -lhAFG"
-alias ll="ls -lAFG"
-alias javac='javac -J-Dfile.encoding=UTF-8'
-alias java='java -Dfile.encoding=UTF-8'
-alias updatedb='/usr/libexec/locate.updatedb'
-alias bim="vim"
-alias im="vim"
-alias vm="vim"
-alias vmi="vim"
-alias mvi="vim"
-alias openssl='/usr/local/bin/openssl'
-alias be="bundle exec"
-alias koukai="java -XstartOnFirstThread -jar ~/Downloads/macosx-x64/logbook.jar"
-alias spec="RAILS_ENV=test be spec"
+# 色を使用
+autoload -Uz colors
+colors
 
-#alias rec='rec --encoding signed-integer --bits 8 --channels 1 --rate 16000 test.wav'
+# 補完
+autoload -Uz compinit
+compinit
 
-export NVM_DIR="/Users/shimenawa/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# 他のターミナルとヒストリーを共有
+setopt share_history
 
-source ~/.nvm/nvm.sh
+# コマンドミスを修正
+setopt correct
 
-export PATH="$HOME/.rbenv/shims:$PATH"
+# エイリアス
+alias ls='ls --color=auto'
+alias lst='ls -ltr --color=auto'
+alias l='ls -ltr --color=auto'
+alias la='ls -la --color=auto'
+alias ll='ls -l --color=auto'
+#alias so='source'
+alias v='vim'
+alias vi='vim'
+alias vz='vim ~/.zshrc'
+#alias c='cdr'
+# historyに日付を表示
+alias h='fc -lt '%F %T' 1'
+alias cp='cp -i'
+alias rm='rm -i'
+alias mkdir='mkdir -p'
+alias ..='cd ../'
+#alias back='pushd'
+alias diff='diff -U1'
+# Shell_Reload
+alias reload_shell='exec $SHELL -l'
+# X
+alias startx='startxfce4'
+alias open='xdg-open'
+# git
+alias gita='git add'
+alias gitc='git commit'
+alias gits='git status'
+alias gitl='git log --oneline --decorate --graph'
+alias gitcs='git commit -S' # Signature option
+# pbcopy-paste
+alias pbcopy='xclip -in -sel clip'
+alias pbpaste='xclip -out -sel clip'
 
-function fxg() {
-  find "$1" -name "*" -type f -print0 |xargs -0 grep -n "$2"
-}
+# cdの後にlsを実行
+chpwd() { ls -ltr --color=auto }
 
-export PHP_DOC_DIR="/Library/WebServer/Documents"
-export SAKURA_SRV="160.16.66.155"
+# プロンプトを2行で表示、時刻を表示
+PROMPT="%(?.%{${fg[green]}%}.%{${fg[green]}%})%n${reset_color}@${fg[blue]}%m${reset_color}(%*%) %~
+%# "
+
+# 補完後、メニュー選択モードになり左右キーで移動が出来る
+zstyle ':completion:*:default' menu select=2
+
+# 補完で大文字にもマッチ
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# 履歴
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=100000
+setopt hist_ignore_dups
+setopt EXTENDED_HISTORY
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
