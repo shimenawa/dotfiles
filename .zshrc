@@ -53,8 +53,38 @@ alias pbpaste='xclip -out -sel clip'
 chpwd() { ls -ltr --color=auto }
 
 # プロンプトを2行で表示、時刻を表示
-PROMPT="%(?.%{${fg[green]}%}.%{${fg[green]}%})%n${reset_color}@${fg[blue]}%m${reset_color}(%*%) %~
+autoload -Uz vcs_info
+PROMPT="%(?.%{${fg[green]}%}.%{${fg[green]}%})%n${reset_color}@${fg[blue]}%m${reset_color}(%*%) %~"
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () { vcs_info }
+PROMPT=$PROMPT' ${vcs_info_msg_0_}'
+PROMPT=$PROMPT"
 %# "
+
+#autoload -Uz vcs_info
+#zstyle ':vcs_info:*' formats '(%F{white}%K{green}%s%f%k)-[%F{white}%K{blue}%b%f%k]'
+#zstyle ':vcs_info:*' actionformats '(%F{white}%K{green}%s%f%k)-[%F{white}%K{blue}%b%f%k|%F{white}%K{red}%a%f%k]'
+#
+#precmd() {
+#  local left='\-[%B%n%b%F{cyan}@%f%B%m%b]'
+#  # バージョン管理されてた場合、ブランチ名
+#  vcs_info
+#  local right="${vcs_info_msg_0_}-[%K{magenta}%d%k]"
+#
+#  local invisible='%([BSUbfksu]|([FK]|){*})'
+#  local leftwidth=${#${(S%%)left//$~invisible/}}
+#  local rightwidth=${#${(S%%)right//$~invisible/}}
+#  local padwidth=$(($COLUMNS - ($leftwidth + $rightwidth)))
+#
+#  print -P $left${(r:$padwidth::-:)}$right-
+#}
+## %(1j,(%j),) : 実行中のジョブ数が1つ以上ある場合ジョブ数を表示
+#PROMPT='-%(1j,(%j),)%B%#%b '
 
 # 補完後、メニュー選択モードになり左右キーで移動が出来る
 zstyle ':completion:*:default' menu select=2
@@ -71,3 +101,6 @@ setopt EXTENDED_HISTORY
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# less color
+export LESS='-R'

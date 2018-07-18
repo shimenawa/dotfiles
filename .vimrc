@@ -60,6 +60,7 @@ set showcmd
 
 
 " 見た目系
+set nowrap
 " 行番号を表示
 set number
 " 現在の行を強調表示
@@ -111,7 +112,11 @@ set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " colorscheme
-colorscheme tender
+" colorscheme tender
+colorscheme gruvbox
+set background=dark
+set t_Co=256
+let g:ligthline = {'colorscheme': 'gruvbox'}
 
 " background transport
 highlight Normal ctermbg=none

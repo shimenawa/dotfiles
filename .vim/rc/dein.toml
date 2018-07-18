@@ -51,9 +51,12 @@ repo = 'Shougo/context_filetype.vim'
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
-# colorscheme molokai
+# colorscheme tender
 [[plugins]]
 repo = 'jacoborus/tender'
+
+[[plugins]]
+repo = 'morhetz/gruvbox'
 
 # markdown
 [[plugins]]
