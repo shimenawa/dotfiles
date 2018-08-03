@@ -87,8 +87,9 @@ nnoremap k gk
 " Tab系
 " 不可視文字を可視化(タブが「▸-」と表示される)
 " set list listchars=tab:\▸\-
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+" 改行
+" set list
+" set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 " Tab文字を半角スペースにする
 set expandtab
 " 行頭以外のTab文字の表示幅（スペースいくつ分）
@@ -130,4 +131,24 @@ augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
   \ exe "normal g`\"" | endif
 augroup END
+
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif
+
+
+" shift arrow moving amount "
+nnoremap <S-Up> 30<UP>
+nnoremap <S-Down> 30<DOWN>
+nnoremap <S-Left> 30<LEFT>
+nnoremap <S-Right> 30<RIGHT>
+
+vnoremap <S-Up> 30<UP>
+vnoremap <S-Down> 30<DOWN>
+vnoremap <S-Left> 30<LEFT>
+vnoremap <S-Right> 30<RIGHT>
 
